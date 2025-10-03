@@ -1,0 +1,40 @@
+body {
+    zoom: 0.8;   /* 80% scale kore dibe sob element */
+}
+
+
+
+
+
+:root{
+  --bg:#0b0e13; --bg-2:#111827; --text:#e2e8f0; --muted:#94a3b8;
+  --accent:#7c5cff;                 /* purple ring */
+  --primary:#76a9ff;
+  --radius:14px;
+  --headerH:56px;
+
+  /* layout helpers */
+  --page-x:24px;                     /* page side padding */
+  --page-max:2200px;                 /* max width for centered blocks */
+}
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0; overflow-x:hidden;
+  font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 500px at 15% 10%, rgba(59,130,246,.10), transparent 60%),
+    radial-gradient(800px 600px at 85% 35%, rgba(37,99,235,.08), transparent 60%),
+    linear-gradient(180deg,var(--bg),var(--bg-2));
+}
+
+a{ color:inherit; text-decoration:none; }
+img{ max-width:100%; display:block; }
+/* Prevent anchor targets from hiding under the sticky header */
+[id] { scroll-margin-top: var(--headerH); }
+/* Make room for the fixed header so content isn't covered */
+body { padding-top: var(--headerH); }
+
+/* Prevent #anchor targets from hiding under the header */
+[id] { scroll-margin-top: var(--headerH); }

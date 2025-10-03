@@ -1,0 +1,500 @@
+/* =========================
+   components.css (clean)
+   - Buttons (primary / secondary)
+   - Social icons
+   - Chips
+   - Cards + hover glow
+   - About & Skills layout (fixed)
+   ========================= */
+
+/* ---------- Design tokens ---------- */
+:root{
+  --page-x: 24px;              /* horizontal page padding */
+  --page-max: 2200px;          /* content width for centered sections */
+  --accent: #7c5cff;           /* purple ring color */
+  --halo: rgba(124,92,255,.33);/* diffused glow color */
+}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 20px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  font-size:15px;
+  font-weight:700;
+  line-height:1;
+  cursor:pointer;
+  user-select:none;
+  transition:
+    transform .12s ease,
+    filter .2s ease,
+    background .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
+}
+.btn svg{ width:18px; height:18px; flex:0 0 auto; }
+.btn:hover{ transform: translateY(-1px); }
+.btn:active{ transform: translateY(0); }
+.btn:focus-visible{ outline:2px solid rgba(118,169,255,.6); outline-offset:2px; }
+
+/* Primary */
+.btn--primary{
+  background: var(--primary, #76a9ff);
+  color:#0b0e13;
+  border-color: transparent;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,.08);
+}
+.btn--primary:hover{ filter: brightness(.96); }
+.btn--primary:active{ filter: brightness(.93); }
+
+/* Secondary */
+.btn--secondary{
+  background: transparent;
+  color:#e7eefc;
+  border-color: rgba(255,255,255,.18);
+}
+.btn--secondary:hover{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.28);
+}
+
+/* Sizes */
+.btn--sm{ padding:10px 14px; font-size:14px; }
+.btn--lg{ padding:14px 24px; font-size:16px; }
+.btn--block{ width:100%; justify-content:center; }
+
+/* Disabled */
+.btn[disabled], .btn:disabled{
+  opacity:.6; cursor:not-allowed; transform:none;
+}
+
+/* ---------- Social icons ---------- */
+.socials{ display:flex; gap:12px; margin-top:10px; }
+.social{
+  width:44px; height:44px; display:grid; place-items:center;
+  border-radius:50%;
+  color:#e7eefc;
+  background: rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.14);
+  transition: background .2s ease, border-color .2s ease, transform .12s ease;
+}
+.social:hover{ background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.24); transform: translateY(-1px); }
+.social:focus-visible{ outline:2px solid rgba(118,169,255,.6); outline-offset:2px; }
+
+/* Bigger CTAs/socials on hero */
+.hero__ctas a{ font-size:18px; padding:16px 26px; border-radius:14px; }
+.hero__ctas a svg{ width:22px; height:22px; margin-right:12px; vertical-align:-3px; }
+
+.socials{ gap:16px; margin-top:16px; }
+.socials a{ width:56px; height:56px; border-radius:50%; border:1.5px solid rgba(255,255,255,.18); display:grid; place-items:center; }
+.socials a svg{ width:22px; height:22px; }
+
+@media (max-width: 520px){
+  .hero__ctas a{ font-size:16px; padding:14px 22px; }
+  .hero__ctas a svg{ width:20px; height:20px; }
+  .socials{ gap:12px; }
+  .socials a{ width:48px; height:48px; }
+  .socials a svg{ width:20px; height:20px; }
+}
+
+/* ---------- Chips ---------- */
+.chips{ display:flex; gap:8px; flex-wrap:wrap; }
+.chip{
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:13px;
+  color:#cfd8ea;
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+}
+
+/* ---------- Cards + hover glow ---------- */
+.info-card{
+  background:#0f1420;
+  border:1px solid #2a3346;
+  border-radius:16px;
+  padding:24px;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+  position:relative;
+}
+.info-card:hover,
+.info-card:focus-visible{
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  background: linear-gradient(180deg,#111827 0%, #0f1420 100%);
+  outline:none;
+}
+.info-card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius: calc(16px + 2px);
+  pointer-events:none;
+  opacity:0;
+  box-shadow:
+    0 0 0 2px var(--accent),
+    0 0 60px 18px var(--halo);
+  transition: opacity .25s ease, box-shadow .25s ease;
+  z-index:1;
+}
+.info-card:hover::before,
+.info-card:focus-visible::before{ opacity:1; }
+
+/* Skill cards build on .info-card hover */
+.skill-card{ height:100%; }
+.skill-card__head{ display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.skill-icon{
+  width:44px; height:44px; display:inline-flex; align-items:center; justify-content:center;
+  border:1px solid #2a3346; border-radius:12px; background:#0f1420; font-size:20px; line-height:1;
+}
+
+/* ---------- About & Skills layout (fixed) ---------- */
+
+/* Let glows spill */
+.about-cards, .skills-grid{ overflow:visible; }
+
+/* ABOUT: keep same side gaps as Skills if desired */
+#about{ padding-left:var(--page-x); padding-right:var(--page-x); }
+#about > .section-title,
+#about > .section-subtitle,
+#about > .about-cards,
+#about > .about-card--wide{
+  max-width: var(--page-max);
+  margin-left:auto; margin-right:auto;
+}
+#about > .section-title{ text-align:center; margin:0 0 8px; }
+#about > .section-subtitle{ text-align:center; margin:0 0 24px; }
+
+/* SKILLS — single source of truth */
+#skills{
+  position:relative;
+  display:flow-root;                      /* no margin collapsing */
+  padding:44px var(--page-x) 36px;        /* top / sides / bottom */
+  margin:0;
+  z-index:0;
+}
+/* Remove any old background panels/stripes for Skills */
+#skills::before{ content:none !important; }
+
+/* Center title + subtitle to same container width */
+#skills > .section-title,
+#skills > .section-subtitle{
+  position:static; left:auto; transform:none;
+  width:100%;
+  max-width: var(--page-max);
+  margin:0 auto;
+  padding:0;
+  text-align:center;
+}
+#skills > .section-title{ margin-bottom:8px; }
+#skills > .section-subtitle{ margin-bottom:24px; }
+
+/* Grid same width */
+#skills .skills-grid{
+  max-width: var(--page-max);
+  margin:0 auto;
+  overflow:visible;
+}
+/* === Fix: make the Skills section one solid background === */
+#skills{
+  position: relative;
+  display: flow-root;                  /* keep your layout */
+  padding: 44px var(--page-x) 36px;
+  margin: 0;
+  z-index: 0;
+
+  /* one unified tone so no left/right split */
+  background: linear-gradient(180deg, #0c1320 0%, #0a101b 100%) !important;
+  /* or use a flat color:
+     background: #0c1320 !important; */
+}
+
+/* ensure no old panel draws on top/bottom and causes bands */
+#skills::before{
+  content: none !important;
+}
+/* ===== Projects panel background styled like ABOUT ===== */
+:root{
+  --projects-panel-offset: 64px;    /* how far below the section top the panel starts */
+  --projects-panel-radius: 14px;    /* rounded top corners for the panel */
+  --projects-panel-top:    #0c1320; /* panel gradient (tweak to match About) */
+  --projects-panel-bottom: #0a101b;
+}
+
+#projects{
+  position: relative;
+  display: flow-root;
+  padding: 56px var(--page-x) 40px;    /* top/sides/bottom */
+  margin: 0;
+  background: transparent !important;  /* no full-section bg; we draw a panel instead */
+  z-index: 0;
+}
+
+/* keep headings above the panel */
+#projects > .section-title,
+#projects > .section-subtitle{
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  text-align: center;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+#projects > .section-title{ margin-bottom: 8px; }
+#projects > .section-subtitle{ margin-bottom: 24px; }
+
+/* the panel that looks like About's background */
+#projects::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--projects-panel-offset);    /* start panel under the subtitle area */
+  bottom: 0;
+  z-index: -1;
+  border-radius: var(--projects-panel-radius) var(--projects-panel-radius) 0 0;
+  background: linear-gradient(180deg,
+               var(--projects-panel-top) 0%,
+               var(--projects-panel-bottom) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.03),
+    inset 0 -1px 0 rgba(0,0,0,.40);
+}
+
+/* grid on top of the panel */
+.projects-grid{
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  overflow: visible; /* keep hover rings visible */
+}
+@media (max-width: 780px){
+  .projects-grid{ grid-template-columns: 1fr; }
+}
+
+/* project cards (reuse your ring-only hover) */
+#projects .project-card{ padding: 20px; border-radius: 14px; background:#0f1420; }
+#projects .project-card__head{
+  display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom: 8px;
+}
+#projects .project-card__head h3{ margin:0; }
+#projects .project-card__icon{
+  width:36px; height:36px; display:grid; place-items:center;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.03);
+  border-radius:10px; text-decoration:none; color:#cfd8ea;
+}
+#projects .project-card__desc{ margin:8px 0 12px; }
+#projects .project-row{ margin:12px 0; }
+#projects .project-row h4{ margin:0 0 6px; font-size:13px; opacity:.9; }
+#projects .project-card__footer{ margin-top:12px; }
+
+/* crisp purple ring only (no heavy glow/gradient) */
+#projects .info-card{ background:#0f1420 !important; box-shadow:none !important; }
+#projects .info-card:hover,
+#projects .info-card:focus-visible{
+  background:#0f1420 !important;
+  border-color: var(--accent) !important;
+  transform: translateY(-4px);
+  outline: none;
+}
+#projects .info-card::before{
+  content:"";
+  position:absolute; inset:-2px; border-radius:calc(14px + 2px);
+  pointer-events:none; opacity:0;
+  box-shadow: 0 0 0 2px var(--accent);    /* crisp ring only */
+  transition: opacity .25s ease;
+}
+#projects .info-card:hover::before,
+#projects .info-card:focus-visible::before{ opacity:1; }
+/* Bump the Projects panel lower so the title + subtitle sit fully above it */
+/* --- Make the Projects background one solid panel (no banding) --- */
+#projects{
+  background: transparent !important;         /* section itself transparent */
+}
+
+/* the rounded panel behind the cards */
+#projects::before{
+  /* one flat tone, adjust to match your About panel */
+  background: #0f1420 !important;
+  /* or try: background: #0c1320 !important; */
+
+  /* remove the thin light/dark inset lines that look like a split */
+  box-shadow: none !important;
+
+  /* if the panel still feels too high/low, tweak this value */
+  top: var(--projects-panel-offset, 120px) !important;
+}
+
+/* keep headings above the panel (unchanged) */
+#projects > .section-title,
+#projects > .section-subtitle{
+  position: relative;
+  z-index: 1;
+}
+
+/* cards keep crisp purple ring only */
+#projects .info-card{
+  background:#0f1420 !important;
+  box-shadow:none !important;
+}
+#projects .info-card:hover,
+#projects .info-card:focus-visible{
+  background:#0f1420 !important;
+  border-color: var(--accent) !important;
+  transform: translateY(-4px);
+  outline: none;
+}
+#projects .info-card::before{
+  content:"";
+  position:absolute; inset:-2px; border-radius:calc(14px + 2px);
+  pointer-events:none; opacity:0;
+  box-shadow: 0 0 0 2px var(--accent);
+  transition: opacity .25s ease;
+}
+#projects .info-card:hover::before,
+#projects .info-card:focus-visible::before{ opacity:1; }
+/* 1) Remove any bottom inset line / shadow from SKILLS so it doesn't stack */
+#skills, #skills::before, #skills::after{
+  box-shadow: none !important;
+  border-bottom: 0 !important;
+}
+
+/* 2) Projects panel: single flat panel, no top/bottom inner lines */
+#projects{
+  background: transparent !important;        /* section itself transparent */
+  margin-top: 8px !important;                /* a touch of breathing room */
+}
+
+/* make sure we only have ONE panel and it starts lower than the subtitle */
+#projects::before{
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  top: 132px !important;                     /* push panel lower; adjust 120–140px if needed */
+  bottom: 0;
+  z-index: -1;
+  border-radius: 14px 14px 0 0;
+  background: #0f1420 !important;            /* flat tone like About */
+  box-shadow: none !important;               /* no inner lines */
+}
+
+/* just in case any earlier CSS added another pseudo panel */
+#projects::after{ content: none !important; }
+/* ===== Contact / Let's Connect ===== */
+
+#contact{
+  position: relative;
+  display: flow-root;
+  padding: 56px var(--page-x) 72px;
+  margin: 0;
+}
+#contact > .section-title,
+#contact > .section-subtitle{
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  text-align: center;
+  padding: 0;
+}
+#contact > .section-title{ margin-bottom: 8px; }
+#contact > .section-subtitle{ margin-bottom: 24px; }
+
+/* big rounded panel (like About) */
+.contact-panel{
+  max-width: 1100px;
+  margin: 0 auto;
+  background: #0f1420;                 /* panel tone to match your UI */
+  border: 1px solid #2a3346;
+  border-radius: 16px;
+  padding: 24px;
+}
+.contact-panel__title{
+  text-align: center;
+  margin: 4px 0 18px;
+  font-weight: 700;
+}
+
+/* grid of cards */
+.contact-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(240px, 1fr));
+  gap: 18px;
+}
+@media (max-width: 900px){
+  .contact-grid{ grid-template-columns: 1fr; }
+}
+
+/* cards */
+#contact .contact-card{
+  text-decoration: none;
+  padding: 24px;
+  border-radius: 14px;
+  text-align: center;
+  color: inherit;
+  background: #0f1420;                 /* flat */
+}
+#contact .contact-card__icon{
+  width: 52px; height: 52px;
+  margin: 0 auto 12px;
+  display: grid; place-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(124,92,255,.08);    /* subtle tint that matches your accent */
+  color: #cfd8ea;
+}
+#contact .contact-card__label{
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+#contact .contact-card__value{
+  font-size: 14px;
+  opacity: .92;
+  word-break: break-word;
+}
+
+/* keep your lovely ring hover on contact cards, but crisp */
+#contact .info-card{
+  box-shadow: none !important;
+}
+#contact .info-card::before{
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: calc(14px + 2px);
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 0 0 2px var(--accent);
+  transition: opacity .25s ease;
+}
+#contact .info-card:hover,
+#contact .info-card:focus-visible{
+  transform: translateY(-4px);
+  outline: none;
+}
+#contact .info-card:hover::before,
+#contact .info-card:focus-visible::before{ opacity: 1; }
+
+/* Nav links are plain by default */
+/* === Featured Projects: lighter card backgrounds (override) === */
+#projects .projects-grid > article.project-card.info-card,
+#projects .projects-grid > article.info-card,
+#projects .projects-grid > article.project-card{
+  background: linear-gradient(180deg, #0e182b 0%, #171e2b 100%) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+  transition: background .25s ease, border-color .25s ease, transform .25s ease;
+}
+
+#projects .projects-grid > article.project-card.info-card:hover,
+#projects .projects-grid > article.info-card:hover,
+#projects .projects-grid > article.project-card:hover{
+  background: linear-gradient(180deg, #1c273d 0%, #162036 100%) !important;
+}

@@ -1,0 +1,655 @@
+/* =========================================
+   LAYOUT.CSS
+   - Header (full width)
+   - Hero (2-column grid, image fixed on right)
+   - Hero typography + cursor
+   - Photo ring
+   - Responsive rules
+   ========================================= */
+
+/* ===== Header (edge-to-edge) ===== */
+/* ===== Header (scrolls with page — not sticky) ===== */
+.site-header{
+  position: fixed;           /* was: sticky */
+  top: 0; left: 0; right: 0;
+  height: var(--headerH);    /* 72px from :root */
+  z-index: 999;              /* keep it above everything */
+  width: 100%;
+  background: rgba(11,14,19,.9);   /* solid enough to be visible while scrolling */
+  backdrop-filter: blur(6px);
+}
+
+
+
+/* Full-width nav bar */
+.nav{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: clamp(8px, 1.4vw, 18px);
+}
+
+/* Gradient logo text */
+.logo{
+  font-weight: 700;
+  font-size: clamp(20px, 1.6vw, 20px);
+  background: linear-gradient(90deg, #7dd3fc 0%, #93c5fd 35%, #c4b5fd 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  letter-spacing: .2px;
+}
+
+/* Right-aligned nav links */
+/* ================= Navbar (full) ================= */
+/* Smooth scrolling for anchor links */
+html{ scroll-behavior:smooth; }
+
+/* Offset so anchors don't hide under sticky header */
+section, [id]{ scroll-margin-top: var(--headerH, 72px); }
+
+/* ===== Navbar look ===== */
+/* Smooth scrolling for anchor links */
+/* Smooth scroll + don't hide anchors under sticky header */
+/* =================  GLOBAL  ================= */
+html { scroll-behavior: smooth; }
+/* keep anchored sections from hiding under the sticky header */
+[id] { scroll-margin-top: var(--headerH, 72px); }
+
+/* =================  NAVBAR  ================= */
+:root{
+  --nav-blue: #60a5fa;                 /* active/hover text */
+  --nav-pill-hover: rgba(96,165,250,.10);
+  --nav-pill-active: rgba(96,165,250,.18);
+}
+
+.navbar{
+  position: sticky; top: 0; z-index: 1000;
+  padding: 10px 22px;                  /* bigger bar */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* list wrapper */
+.nav__links{
+  margin-left: auto;
+  display: flex; gap: 14px;
+  list-style: none; padding: 0; margin: 0;
+}
+
+/* links — WHITE by default (even when visited) */
+.nav__links a{
+  display: inline-block;
+  padding: 10px 18px;                  /* wider pills */
+  border-radius: 14px;
+  background: transparent;
+  color: #ffffff;                       /* default white */                     /* larger text */
+  font-weight: 600;
+  text-decoration: none;
+  transition: color .2s, background .2s;
+}
+.nav__links a:link,
+.nav__links a:visited{
+  color: #ffffff;                       /* ensure visited stays white */
+}
+
+/* hover */
+.nav__links a:hover,
+.nav__links a:focus-visible{
+  color: var(--nav-blue);
+  background: var(--nav-pill-hover);
+  outline: 0;
+}
+* ↓↓↓ ADD THIS BLOCK ↓↓↓ */
+/* Remove the default first-load focus ring on Home */
+.nav__links a:focus{
+  outline: none;
+  box-shadow: none;
+}
+/* If focused by mouse (not keyboard), keep default look */
+.nav__links a:focus:not(:focus-visible){
+  color:#fff;
+  background:transparent;
+}
+/* Keep keyboard focus clean (no ring) */
+.nav__links a:focus-visible{
+  outline: none;
+  box-shadow: none;
+}
+/* ↑↑↑ ADD THIS BLOCK ↑↑↑ */
+/* ACTIVE (persistent) — blue text, soft blue pill, NO border */
+.nav__links a.active,
+.nav__links a[aria-current="page"]{
+  color: var(--nav-blue);
+  background: var(--nav-pill-active);
+  box-shadow: none;                     /* no ring */
+}
+
+/* ===== Pure CSS “active” via :target (no JS) =====
+   Highlight the nav link that points to the section in the URL hash. */
+
+body:has(#home:target)       .nav__links a[href="#home"],
+body:has(#about:target)      .nav__links a[href="#about"],
+body:has(#skills:target)     .nav__links a[href="#skills"],
+body:has(#projects:target)   .nav__links a[href="#projects"],
+body:has(#contact:target)    .nav__links a[href="#contact"]{
+  color: var(--nav-blue);
+  background: var(--nav-pill-active);
+  box-shadow: none;
+}
+
+/* small screens */
+@media (max-width: 640px){
+  .navbar{ padding: 10px 16px; }
+  .nav__links{ gap: 10px; }
+  .nav__links a{ padding: 9px 14px; font-size: 16px; }
+}
+
+/* Optional: top progress bar (wire up later if you want) */
+
+
+/* ===== Hero (edge-to-edge) ===== */
+.hero{
+  padding-top: clamp(50px, 3vw, 60px);   
+  min-height: calc(100svh - var(--headerH));
+  display: block;                /* grid lives in the child */
+}
+@supports (height: 100dvh){
+  .hero{ min-height: calc(100dvh - var(--headerH)); }
+}
+
+/* Two-column grid that keeps image on the right */
+.hero__grid{
+  display: grid;
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+  grid-template-columns:
+    minmax(420px, 1.1fr)
+    minmax(380px, 0.9fr);
+  padding-inline: clamp(16px, 3vw, 40px); /* small breathing room at edges */
+  padding-block: clamp(20px, 3vw, 48px) clamp(24px, 4vw, 56px);
+}
+
+/* Left column */
+.hero__content{
+  min-width: 420px;
+  max-width: 860px;
+  /* Uncomment to nudge content up a bit:
+  margin-top: -24px;
+  */
+}
+
+/* Hero typography */
+.hero__name {
+  font-size: clamp(40px, 6vw, 70px);  /* chhoto: 40px–70px range */
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: .3px;
+  margin: 0 0 10px;
+  text-wrap: balance;
+}
+
+.hero__role {
+  font-size: clamp(18px, 2.2vw, 26px); /* chhoto: 18px–26px range */
+  line-height: 1.2;
+  font-weight: 800;
+  color: #d5e0f0;
+  margin: 0 0 16px;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Blinking cursor used by the typewriter JS */
+.cursor{
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;                /* will be reset by JS after fonts load */
+  background: #e6efff;
+  margin-left: 4px;
+  animation: blink .9s steps(1,end) infinite;
+}
+@keyframes blink{ 50%{ opacity: 0; } }
+
+.hero__lead{
+  font-size: clamp(16px, 1.8vw, 19px);
+  line-height: 1.7;
+  color: #cbd5e1;
+  margin: 0 0 14px;
+  max-width: 70ch;
+  text-wrap: pretty;
+}
+.hero__sub{
+  font-size: clamp(14px, 1.5vw, 18px);
+  line-height: 1.8;
+  color: var(--muted);
+  margin: 0 0 24px;
+  max-width: 75ch;
+  text-wrap: pretty;
+}
+.hero__ctas{
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 22px 0;
+}
+
+/* Right column photo ring */
+.hero__photo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.photo-ring{
+  position: relative;
+  width: clamp(320px, 32vw, 460px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  padding: 14px;
+  background: radial-gradient(130% 130% at 30% 30%, rgba(59,130,246,.20), transparent 60%);
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.05),
+    0 18px 50px rgba(0,0,0,.45);
+}
+.photo-ring::before,
+.photo-ring::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.photo-ring::before{ border: 2px solid rgba(255,255,255,.08); }
+.photo-ring::after{
+  inset: -10px;
+  border: 2px solid rgba(59,130,246,.15);
+  filter: blur(2px);
+}
+.photo-ring img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid var(--ring);
+  background: #0f172a;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 980px){
+  .hero__grid{
+    grid-template-columns: 1fr;          /* stack */
+    padding-inline: clamp(12px, 3vw, 24px);
+  }
+  .hero__photo{ order: -1; padding-top: 8px; }
+  .photo-ring{ width: min(320px, 70vw); }
+  .hero__content{ min-width: 0; }
+}
+/* ===== Generic section spacing ===== */
+.section{ padding: clamp(56px, 8vw, 96px) 0; }
+.section-title{
+  font-size: clamp(28px, 4vw, 42px);
+  margin: 0 0 10px;
+  text-align: center;
+}
+.about__tagline{
+  text-align: center;
+  color: #cbd5e1;
+  margin: 0 0 28px;
+}
+
+/* ===== About: match hero background + edges, 2-up full width ===== */
+
+/* 1) Same background as page/hero (remove the darker strip) */
+#about {
+  background: #0b0e13; /* base solid fallback */
+  background: linear-gradient(180deg, #0b0e13 0%, #0f172a 100%);
+  padding: clamp(56px, 8vw, 96px) clamp(16px, 3vw, 40px);
+}
+
+/* 2) Use the SAME container rules as your hero. 
+   If your hero uses .container globally, keep this block. */
+.container{
+ /* Container width fix */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+
+/* 3) Two equal columns that go edge-to-edge within the container */
+#about .about-cards{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2.5vw, 28px);
+  width: 100%;
+}
+
+/* Card surface and typography (same as you already have, kept concise) */
+#about .about-card{
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 16px;
+  padding: clamp(18px, 2.2vw, 24px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.12) inset;
+}
+#about .about-card__head{ display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+#about .about-card__icon{
+  width:44px; height:44px; display:grid; place-items:center; border-radius:12px;
+  font-size:20px; background: rgba(59,130,246,.15); color:#4da6ff; border:1px solid rgba(59,130,246,.25);
+}
+#about .about-card.experience .about-card__icon{
+  background: rgba(167,139,250,.15); color:#c28cff; border-color: rgba(167,139,250,.25);
+}
+#about .about-card h3{ margin:0; font-size:20px; font-weight:700; color:#fff; }
+#about .about-card__title{ margin:6px 0; font-size:22px; font-weight:800; color:#e7eefc; }
+#about .about-card__org{ margin:0 0 4px; color:#cbd5e1; font-size:16px; }
+#about .about-card__meta{ margin:0 0 10px; color:#9aa6b2; font-size:14px; }
+#about .about-card__list{ padding-left:18px; color:#d2dbe8; font-size:15px; }
+#about .about-card__list li{ margin:6px 0; }
+
+/* Mobile: stack neatly */
+@media (max-width: 900px){
+  #about .about-cards{ grid-template-columns: 1fr; }
+}
+/* Center the line under "About Me" */
+#about .section-subtitle,
+#about .section__subtitle {
+  text-align: center;
+}
+
+/* Add left/right breathing room without altering card styling */
+#about {
+  padding-inline: clamp(16px, 3vw, 40px); /* side gap to window edges */
+}
+
+/* Keep the two cards centered with a sensible max width */
+#about .about-cards {
+  max-width: 1600px;        /* match your hero/container if needed */
+  margin-inline: auto;      /* centers the grid */
+}
+
+
+/* Match About section background to header background */
+/* Interests card (full width, matches other about cards) */
+.about-card--wide{
+  margin-top: clamp(16px, 3vw, 24px);
+  grid-column: 1 / -1; /* span both columns if placed in the grid */
+}
+
+/* Blue-ish icon badge for Interests */
+.about-card__icon.interests-icon{
+  background: rgba(59,130,246,.12);
+  border: 1px solid rgba(59,130,246,.22);
+  color: #7fb0ff;
+}
+
+/* Pills */
+.chips{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip{
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .2px;
+  color: #dbe8ff;
+  background: rgba(59,130,246,.16);                 /* soft blue */
+  border: 1px solid rgba(59,130,246,.28);
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,.08);
+  transition: transform .12s ease, background .2s ease, border-color .2s ease;
+}
+.chip:hover{
+  transform: translateY(-1px);
+  background: rgba(59,130,246,.22);
+  border-color: rgba(59,130,246,.38);
+}
+
+/* If Interests sits inside the .about-cards grid, keep it full-width on mobile too */
+@media (max-width: 900px){
+  .about-card--wide{ grid-column: 1 / -1; }
+}
+/* Skills section grid */
+.skills-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 16px;
+}
+@media (max-width: 780px){
+  .skills-grid{ grid-template-columns: 1fr; }
+}
+/* ---------- Skills section heading + spacing ---------- */.about-cards{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  gap: 24px;
+}
+.skills-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  gap: 24px;
+}
+@media (max-width: 780px){
+  .about-cards, .skills-grid{ grid-template-columns: 1fr; }
+}
+/* === NAV TEXT BIGGER (logo + menu links) === */
+.site-header .logo{
+  font-size: clamp(16px, 2vw, 28px) !important;  /* was ~16–18px */
+  font-weight: 800;
+}
+
+.site-header .nav__links{
+  gap: 14px;                                     /* a little more space between items */
+}
+
+/* default: text-only blue */
+
+/* ================== TYPOGRAPHY BOOST: About → End ================== */
+/* Put this at the VERY BOTTOM of css/layout.css */
+
+/* Global bump for normal copy after hero */
+#about p, #about li,
+#skills p, #skills li,
+#projects p, #projects li,
+#contact p, #contact li{
+  font-size: clamp(16px, 0.9vw + 12px, 20px);
+  line-height: 1.85;
+  font-weight: 500;            /* slightly bolder words */
+  letter-spacing: .1px;
+}
+
+/* Section subtitles under the big titles */
+#about .section-subtitle,
+#skills .section-subtitle,
+#projects .section-subtitle,
+#contact .section-subtitle{
+  font-size: clamp(15px, 0.6vw + 12px, 18px);
+  font-weight: 600;
+  opacity: .95;
+}
+
+/* About cards — make titles and body more readable */
+#about .about-card h3{
+  font-size: clamp(20px, 0.6vw + 16px, 22px);
+  font-weight: 700;
+}
+#about .about-card__org,
+#about .about-card__meta{
+  font-size: clamp(14px, 0.5vw + 11px, 17px);
+  font-weight: 500;
+  opacity: .96;
+}
+
+/* Skills rows — labels/descriptions a bit larger */
+#skills .skill-row p,
+#skills .skill-row .label,
+#skills .skill-row .desc{
+  font-size: clamp(15px, 0.6vw + 11px, 18px);
+  font-weight: 500;
+}
+
+/* Projects list — h4 and snippet text were small; bump both */
+#projects .project-row h4{
+  font-size: clamp(15px, 0.6vw + 12px, 18px);
+  font-weight: 700;
+  opacity: .98;
+}
+#projects .project-row p{
+  font-size: clamp(15px, 0.7vw + 11px, 18px);
+  font-weight: 600;
+  line-height: 1.8;
+}
+
+/* Contact cards — values and labels clearer */
+#contact .contact-card__value,
+#contact .contact-card__label{
+  font-size: clamp(15px, 0.6vw + 11px, 18px);
+  font-weight: 600;
+  opacity: .96;
+}
+
+/* Slightly tighten big section titles spacing after the bump */
+.section-title{
+  letter-spacing: .2px;
+}
+
+/* ===== Corrected: BIG LABELS, SMALL CHIPS (features colored) ===== */
+
+/* 1) Keep the labels BIG (do not shrink) */
+#projects .project-card .project-row > h4{
+  font-size: clamp(16px, 0.5vw + 13px, 19px) !important;
+  font-weight: 600 !important;
+  letter-spacing: .2px;
+  margin: 0 0 8px;
+  color: inherit;                 /* no color on the label itself */
+}
+
+/* 2) Base chip reset (compact boxes, bold words) */
+#projects .chips{ gap: 10px; }
+#projects .chip{
+  line-height: 1;
+  border-radius: 9999px;
+  font-weight: 700;
+  letter-spacing: .1px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* 3) TECHNOLOGIES — SMALL neutral chips */
+#projects .project-card .project-row:nth-of-type(2) .chip{
+  font-size: 15px;                /* big-enough words */
+  padding: 4px 8px;               /* small box */
+  background: rgba(148,163,184,.10);
+  border: 1px solid rgba(148,163,184,.28);
+  color: #e8eeff;
+  box-shadow: none;
+}
+
+/* 4) KEY FEATURES — SMALL but COLORED chips (label not colored) */
+#projects .project-card .project-row:nth-of-type(3) .chip{
+  font-size: 16px;                /* a touch bigger than tech */
+  padding: 6px 10px;              /* still compact box */
+  background: rgba(167,139,250,.22);
+  border: 1px solid rgba(167,139,250,.42);
+  color: #f0ecff;
+  box-shadow: 0 0 0 1px rgba(167,139,250,.12) inset;
+}
+#projects .project-card .project-row:nth-of-type(3) .chip:hover{
+  background: rgba(167,139,250,.28);
+  border-color: rgba(167,139,250,.52);
+}
+
+/* 5) No divider above the CTA */
+#projects .project-card__footer{
+  display: flex;
+  justify-content: center;   /* center the box horizontally */
+  align-items: center;        /* align vertically if taller */
+}
+#projects .project-card__footer .btn{
+  margin: 0 auto;                     /* safety: center even if not flexed */
+  display: inline-flex;               /* lets us center the text inside */
+  justify-content: center;            /* center text horizontally */
+  align-items: center;                /* center text vertically */
+  text-align: center;                 /* fallback */
+  padding: 16px 22px;                 /* symmetric so no left bias */
+  width: clamp(360px, 70%, 640px);    /* or your chosen width */
+}
+/* === Side-by-side project cards (2 columns) === */
+#projects .projects-grid{
+  display: grid;
+  grid-template-columns: 1fr;                  /* mobile: 1 per row */
+  gap: clamp(16px, 2.5vw, 28px);
+  max-width: 2000px;
+  margin-inline: auto;                         /* center the grid */
+}
+
+@media (min-width: 900px){
+  #projects .projects-grid{
+    grid-template-columns: repeat(2, minmax(520px, 1fr)); /* 2 columns */
+    justify-content: center;                   /* keep centered */
+  }
+}
+
+@media (min-width: 1400px){
+  #projects .projects-grid{
+    grid-template-columns: repeat(2, minmax(580px, 1fr)); /* a bit wider */
+  }
+}
+
+/* Make each card fill its column and keep consistent height */
+#projects .project-card{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#projects .project-card__footer{ margin-top: auto; } /* button stays at bottom */
+
+
+/* === Featured Projects: lighter card background (override) === */
+#projects .project-card{
+  background: linear-gradient(180deg, #223152 0%, #1b2842 100%) !important;
+  border: 1px solid rgba(255,255,255,.10);
+  transition: background .25s ease, border-color .25s ease, transform .25s ease;
+}
+#projects .project-card:hover{
+  background: linear-gradient(180deg, #f8faff 0%, #cbcccf 100%) !important;
+}
+
+.site-footer {
+  text-align: center;
+  padding: 20px;
+  color: #94a3b8;   /* muted text */
+  font-size: 22px;
+}
+
+.site-footer hr {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,.08);
+  margin: 20px auto;
+  max-width: 90%;
+}
+
+.site-footer p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.site-footer span {
+  color: #e25555; /* heart color */
+}
+.project-card__footer {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  gap: 0.75rem; /* vertical space between buttons */
+  align-items: stretch; /* makes both buttons same width */
+}
